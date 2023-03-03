@@ -1,22 +1,16 @@
 import * as Utils from "./RectUtils.js";
+import * as Key from "./Keyboard.js";
+export let keyboard = new Key.Keyboard();
 export function log(a) {
     console.log(a)
 }
 export function ClearCanvas(ctx,canvas) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
-export class Sprite {
-    constructor(x,y,w,h) {
-        this.bounds = new Utils.Rect(x,y,w,h)
-    }
-    draw(ctx) {
-        ctx.fillStyle = "black"
-        ctx.fillRect(this.bounds.x, this.bounds.y, this.bounds.w, this.bounds.h)
-    }
-    debug(ctx) {
-        ctx.strokeStyle = "red";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(this.bounds.x,this.bounds.y,this.bounds.w,this.bounds.h)
+export class GameObject {
+    constructor(x,y) {
+        this.bounds = new Utils.Rect(x,y,32,32)
+
     }
 }
 export class ParticleSource {
@@ -66,3 +60,12 @@ export class ParticleSource {
         });
     }
 }
+
+function loop() {   
+    requestAnimationFrame(loop)
+}
+function init() {
+    keyboard.setup_keyboard();
+    loop();
+}
+init();
