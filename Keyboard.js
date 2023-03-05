@@ -15,4 +15,7 @@ export class Keyboard {
             return true;
         }
     }
+    clear() {
+        currentKey.clear();
+    }
 }

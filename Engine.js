@@ -10,6 +10,13 @@ export function ClearCanvas(ctx,canvas) {
 export class GameObject {
     constructor(x,y) {
         this.bounds = new Utils.Rect(x,y,32,32)
+    }
+}
+export function drawMap(room,scale,ctx) {
+    for (let name in room.gameObjects) {
+        let obj = room.gameObjects[name];
+        log(obj)
+        ctx.fillRect(obj.bounds.x*scale, obj.bounds.y*scale, obj.bounds.w, obj.bounds.h);
 
     }
 }
@@ -60,7 +67,6 @@ export class ParticleSource {
         });
     }
 }
-
 function loop() {   
     requestAnimationFrame(loop)
 }
