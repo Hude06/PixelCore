@@ -15,9 +15,34 @@ export class GameObject {
 export function drawMap(room,scale,ctx) {
     for (let name in room.gameObjects) {
         let obj = room.gameObjects[name];
-        log(obj)
         ctx.fillRect(obj.bounds.x*scale, obj.bounds.y*scale, obj.bounds.w, obj.bounds.h);
 
+    }
+}
+export class Mouse {
+    constructor() {
+        this.bounds = new Utils.Rect(10,10,10,10)
+        this.mouseClicked = false;
+    }
+    check() {
+        addEventListener("mousemove", (event) => {
+            this.bounds.x = (event.offsetX);
+            this.bounds.y = (event.offsetY);
+        });
+        document.addEventListener("mousedown", (e) => {
+            if (e.button === 0) {
+                this.mouseClicked = true
+            }
+          });
+          document.addEventListener("mouseup", (e) => {
+            this.mouseClicked = false;
+          });
+
+    }
+    clickOn(item) {
+        if (this.bounds.intersects(item.bounds) && this.mouseClicked === true) {
+            return true;
+        }
     }
 }
 export class ParticleSource {
