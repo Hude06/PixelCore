@@ -7,18 +7,47 @@ export function log(a) {
 export function ClearCanvas(ctx,canvas) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
-export class GameObject {
-    constructor(x,y) {
-        this.bounds = new Utils.Rect(x,y,32,32)
+export class Scene {
+    constructor(w,h) {
+        this.w = w
+        this.h = h
+        this.gameObjects = {}
+    }
+    draw(ctx) {
+        for (let name in this.gameObjects) {
+            let obj = this.gameObjects[name];
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(obj.image,obj.bounds.x, obj.bounds.y, obj.bounds.w, obj.bounds.h);
+        }
     }
 }
-export function drawMap(room,scale,ctx) {
+export class Button {
+    constructor(x,y,w,h) {
+        this.bounds = new Utils.Rect(x,y,w,h)
+    }
+    draw(ctx) {
+        ctx.fillRect(this.bounds.x,this.bounds.y,this.bounds.w,this.bounds.h)
+    }
+}
+export class GameObject {
+    constructor(x,y,src,w,h) {
+        this.bounds = new Utils.Rect(x,y,w,h)
+        this.image = new Image();
+        this.image.src = src;
+    }
+    follow(item) {
+        if (item.bounds.x >= this.x) {
+
+        }
+    }
+}
+export function drawMap(room,ctx) {
     for (let name in room.gameObjects) {
         let obj = room.gameObjects[name];
-        ctx.fillRect(obj.bounds.x*scale, obj.bounds.y*scale, obj.bounds.w, obj.bounds.h);
-
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(obj.image,obj.bounds.x, obj.bounds.y, obj.bounds.w, obj.bounds.h);
     }
-}
+}   
 export class Mouse {
     constructor() {
         this.bounds = new Utils.Rect(10,10,10,10)
@@ -26,8 +55,8 @@ export class Mouse {
     }
     check() {
         addEventListener("mousemove", (event) => {
-            this.bounds.x = (event.offsetX);
-            this.bounds.y = (event.offsetY);
+            this.bounds.x = (event.offsetX-6);
+            this.bounds.y = (event.offsetY-6);
         });
         document.addEventListener("mousedown", (e) => {
             if (e.button === 0) {
