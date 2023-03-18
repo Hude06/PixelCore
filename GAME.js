@@ -5,9 +5,10 @@ let particals = new Engine.ParticleSource();
 let mouse = new Engine.Mouse();
 let button1 = new Engine.Button(canvas.width/2-100,10,200,30)
 button1.text = "Start"
-let scene = "menu"
 let Level1 = new Engine.Scene();
 let Menu = new Engine.Scene();
+let Beat1 = new Engine.SoundSystem("./laserShoot.wav");
+Beat1.play();
 Level1.gameObjects = {
     hero: new Engine.GameObject(200,1,"./PixelArtPencil.png",64,64),
     npc1: new Engine.GameObject(50,1,"./PixelArtPencil.png",64,64),
@@ -40,13 +41,13 @@ function loop() {
     if (mouse.clickOn(button1)) {
         button1.bounds.x = mouse.bounds.x
         button1.bounds.y = mouse.bounds.y
-
     }   
     if (mouse.clickOn(Level1.gameObjects.npc1)) {
         Level1.gameObjects.npc1.bounds.x = mouse.bounds.x - 25
         Level1.gameObjects.npc1.bounds.y = mouse.bounds.y- 10
     }
-    button1.draw(ctx);
+    // button1.draw(ctx);
+    Level1.draw(ctx);
     keybaordLoop();
     particals.update_particles(ctx);
     particals.draw_particles(ctx,"3,255,247");

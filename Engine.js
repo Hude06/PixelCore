@@ -1,8 +1,19 @@
 import * as Utils from "./RectUtils.js";
 import * as Key from "./Keyboard.js";
+export { RigidBody } from "./Physics.js";
 export let keyboard = new Key.Keyboard();
+export let NavKey = new Key.Keyboard();
+
 export function log(a) {
     console.log(a)
+}
+export class SoundSystem {
+    constructor(src) {
+        this.beat = new Audio(src)
+    }
+    play() {
+        this.beat.play();
+    }
 }
 export function ClearCanvas(ctx,canvas) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -40,25 +51,15 @@ export class GameObject {
         this.bounds = new Utils.Rect(x,y,w,h)
         this.image = new Image();
         this.image.src = src;
+        this.rigidBody = null;
     }
-    follow(item) {
-        if (item.bounds.x >= this.x) {
-
+    init() {
+        if (this.rigidBody) {
+          this.rigidBody.loop(this.bounds)  
         }
     }
-}
-// export class Dialog {
-//     constructor(canvas) {
-//         this.x = canvas.width
-//     }
-//     draw(ctx) {
-//         console.log(this.x)
-//         ctx.fillRect(100,0,100,100);
-//     }
-//     update() {
 
-//     }
-// }
+}
 export class Mouse {
     constructor() {
         this.bounds = new Utils.Rect(10,10,10,10)
@@ -132,11 +133,16 @@ export class ParticleSource {
         });
     }
 }
-function loop() {   
+export function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+function loop() {
     requestAnimationFrame(loop)
 }
 function init() {
     keyboard.setup_keyboard();
+    NavKey.setup_keyboard();
+
     loop();
 }
 init();
