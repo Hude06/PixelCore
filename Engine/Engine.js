@@ -35,6 +35,7 @@ export class Scene {
 }
 export class Button {
     constructor(x,y,w,h) {
+        this.sprite = false;
         this.bounds = new Utils.Rect(x,y,w,h)
         this.text = "Undefinded";
     }
@@ -44,11 +45,12 @@ export class Button {
         ctx.font = "30px Arial";
         ctx.fillStyle = "white";
         ctx.textAlign = "center";
-        ctx.fillText(this.text, this.bounds.x+100, this.bounds.y+25);
+        ctx.fillText(this.text, this.bounds.x+this.bounds.w/2, this.bounds.y+25);
     }
 }
 export class GameObject {
     constructor(x,y,src,w,h,s) {
+        this.sprite = true;
         this.bounds = new Utils.Rect(x,y,w,h)
         this.image = new Image();
         this.image.src = src;
