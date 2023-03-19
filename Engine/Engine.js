@@ -23,23 +23,26 @@ export class Scene {
         this.gameObjects = {}
     }
     draw(ctx) {
-        for (let name in this.gameObjects) {
-            let obj = this.gameObjects[name];
-            ctx.imageSmoothingEnabled = false;
-            ctx.drawImage(obj.image,obj.bounds.x, obj.bounds.y, obj.bounds.w, obj.bounds.h);
+        for (let i = 0; i < Object.keys(this.gameObjects).length; i++) {
+            console.log(this.gameObjects[])
         }
+        // for (let name in this.gameObjects) {
+        //     let obj = this.gameObjects[name];
+        //     ctx.imageSmoothingEnabled = false;
+        //     ctx.drawImage(obj.image,obj.bounds.x, obj.bounds.y, obj.bounds.w, obj.bounds.h);
+        // }
     }
     clear(ctx,canvas) {
         ctx.clearRect(0,0,canvas.width,canvas.height)
     }
 }
 export class Button {
-    constructor(x,y,w,h) {
-        this.sprite = false;
+    constructor(x,y,w,h,s) {
+        this.sprite = s;
         this.bounds = new Utils.Rect(x,y,w,h)
         this.text = "Undefinded";
     }
-    draw(ctx) {
+    draw(ctx) { 
         ctx.fillStyle = "black";
         ctx.fillRect(this.bounds.x,this.bounds.y,this.bounds.w,this.bounds.h)
         ctx.font = "30px Arial";
@@ -50,12 +53,12 @@ export class Button {
 }
 export class GameObject {
     constructor(x,y,src,w,h,s) {
-        this.sprite = true;
+        this.sprite = s;
         this.bounds = new Utils.Rect(x,y,w,h)
         this.image = new Image();
         this.image.src = src;
         this.rigidBody = null;
-        this.speed = s
+        this.speed = 1;
     }
     init() {
         if (this.rigidBody) {
