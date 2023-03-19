@@ -6,10 +6,9 @@ export class RigidBody {
         this.friction = 0;
         this.spin = 1;
         this.grounded = false;
-        this.FrictionMoving = false;
+        this.moving = false;
     }
     loop(bounds) {        
-        this.XVelocity -= this.friction
         this.YVelocity += this.gravity;
         bounds.x -= this.XVelocity
         bounds.y -= this.YVelocity;
@@ -20,12 +19,6 @@ export class RigidBody {
         } else {
             this.grounded = false;
 
-        }
-        if (this.grounded === true) {
-            this.friction = -0.1
-        }
-        if (this.XVelocity > 0) {
-            this.friction = 0;
         }
     }
 }

@@ -2,8 +2,6 @@ import * as Utils from "./RectUtils.js";
 import * as Key from "./Keyboard.js";
 export { RigidBody } from "./Physics.js";
 export let keyboard = new Key.Keyboard();
-export let NavKey = new Key.Keyboard();
-
 export function log(a) {
     console.log(a)
 }
@@ -31,6 +29,9 @@ export class Scene {
             ctx.drawImage(obj.image,obj.bounds.x, obj.bounds.y, obj.bounds.w, obj.bounds.h);
         }
     }
+    clear(ctx,canvas) {
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+    }
 }
 export class Button {
     constructor(x,y,w,h) {
@@ -47,15 +48,30 @@ export class Button {
     }
 }
 export class GameObject {
-    constructor(x,y,src,w,h) {
+    constructor(x,y,src,w,h,s) {
         this.bounds = new Utils.Rect(x,y,w,h)
         this.image = new Image();
         this.image.src = src;
         this.rigidBody = null;
+        this.speed = s
     }
     init() {
         if (this.rigidBody) {
           this.rigidBody.loop(this.bounds)  
+        }
+    }
+    folow(player) {
+        if (player.bounds.x >= this.bounds.x) {
+            this.bounds.x += this.speed;
+        }
+        if (player.bounds.x <= this.bounds.x) {
+            this.bounds.x -= this.speed;
+        }
+        if (player.bounds.y >= this.bounds.y) {
+            this.bounds.y += this.speed;
+        }
+        if (player.bounds.y <= this.bounds.y) {
+            this.bounds.y -= this.speed;
         }
     }
 
@@ -65,7 +81,7 @@ export class Mouse {
         this.bounds = new Utils.Rect(10,10,10,10)
         this.mouseClicked = false;
     }
-    check() {
+    init() {
         addEventListener("mousemove", (event) => {
             this.bounds.x = (event.offsetX-6);
             this.bounds.y = (event.offsetY-6);
@@ -84,6 +100,17 @@ export class Mouse {
         if (this.bounds.intersects(item.bounds) && this.mouseClicked === true) {
             return true;
         }
+    }
+    click() {
+        if (this.mouseClicked === true) {
+            return true;
+        }
+    }
+    posY() {
+        return this.bounds.y
+    }
+    posX() {
+        return this.bounds.x
     }
 }
 export class ParticleSource {
@@ -141,8 +168,6 @@ function loop() {
 }
 function init() {
     keyboard.setup_keyboard();
-    NavKey.setup_keyboard();
-
     loop();
 }
 init();

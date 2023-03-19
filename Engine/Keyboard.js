@@ -1,13 +1,17 @@
 let currentKey = new Map();
+let NavKey = new Map();
 export class Keyboard {
     constructor() {
     }
     setup_keyboard() {
         window.addEventListener("keydown", function (event) {
             currentKey.set(event.key, true);
+            NavKey.set(event.key, true);
         });
         window.addEventListener("keyup", function (event) {
             currentKey.set(event.key, false);
+            NavKey.set(event.key, false);
+
         });
     }
     get(key) {
@@ -15,7 +19,12 @@ export class Keyboard {
             return true;
         }
     }
+    getNav(key) {
+        if (NavKey.get(key) === true) {
+            return true;
+        }
+    }
     clear() {
-        currentKey.clear();
+        NavKey.clear();
     }
 }
